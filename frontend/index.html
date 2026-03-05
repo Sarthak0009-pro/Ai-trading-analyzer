@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Trading Analyzer</title>
+<style>
+body{
+font-family:Arial;
+text-align:center;
+margin-top:60px;
+}
+
+button{
+padding:10px 20px;
+font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Upload Trading Chart</h2>
+
+<input type="file" id="chart">
+
+<br><br>
+
+<button onclick="uploadChart()">Analyze Chart</button>
+
+<h3 id="result"></h3>
+
+<script>
+
+async function uploadChart(){
+
+let file=document.getElementById("chart").files[0]
+
+let formData=new FormData()
+formData.append("chart",file)
+
+let response=await fetch("http://localhost:8000/analyze",{
+method:"POST",
+body:formData
+})
+
+let data=await response.json()
+
+document.getElementById("result").innerText =
+"Entry: "+data.entry+
+"  SL: "+data.sl+
+"  TP: "+data.tp
+
+}
+
+</script>
+
+</body>
+</html>
